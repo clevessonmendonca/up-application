@@ -5,10 +5,13 @@ import { ProductsImages } from "../../models/ProductsImages";
 export class MongoGetImagesRepository implements IGetImagesRepository {
   async getImages(): Promise<ProductsImages[]> {
     const ProductImages = await MongoClient.db
-      .collection<ProductsImages>("products")
+      .collection<Omit<ProductsImages, "id">>("products")
       .find({})
       .toArray();
 
-    return ProductImages;
+    return ProductImages.map(({ _id, ...rest }) => ({
+      ...rest,
+      id: _id.toHexString(),
+    }));
   }
 }
