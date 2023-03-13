@@ -1,6 +1,6 @@
 import { MongoClient } from "../../database/mongo";
 import { ProductsImages } from "../../models/ProductsImages";
-import { CreateImagesParams, ICreateImageRepository } from "./protocols";
+import { CreateImagesParams, ICreateImageRepository } from "../../controllers/create-user/protocols";
 
 export class MongoCreateImage implements ICreateImageRepository {
   async createImage(params: CreateImagesParams): Promise<ProductsImages> {
