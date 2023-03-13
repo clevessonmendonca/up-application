@@ -3,11 +3,15 @@ import { config } from "dotenv";
 import { GetImagesController } from "./controllers/get-images/get-images";
 import { MongoGetImagesRepository } from "./repositories/get-images/mongo-get-images";
 import { MongoClient } from "./database/mongo";
+import { CreateImageController } from "./controllers/create-image/create-image";
+import { MongoCreateImageRepository } from "./repositories/create-images/mongo-create-images";
 
 const main = async () => {
   config();
 
   const app = express();
+
+  app.use(express.json());
 
   await MongoClient.connect();
 
@@ -16,6 +20,19 @@ const main = async () => {
     const getImagesController = new GetImagesController(getImagesRepository);
 
     const { body, statusCode } = await getImagesController.handle();
+
+    res.send(body).status(statusCode);
+  });
+
+  app.post("/images", async (req, res) => {
+    const mongoCreateImageRepository = new MongoCreateImageRepository();
+    const createImageController = new CreateImageController(
+      mongoCreateImageRepository
+    );
+
+    const { body, statusCode } = await createImageController.handle({
+      body: req.body,
+    });
 
     res.send(body).status(statusCode);
   });
