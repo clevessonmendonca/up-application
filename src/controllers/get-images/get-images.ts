@@ -1,11 +1,11 @@
-import { IGetImagesController } from "./protocols";
+import { IGetImagesController, IGetImagesRepository } from "./protocols";
 
 export class GetImagesController implements IGetImagesController {
   constructor(private readonly getImagesRepository: IGetImagesRepository) {}
 
-  handle() {
+  async handle() {
     try {
-      const images = this.getImagesRepository.getImages();
+      const images = await this.getImagesRepository.getImages();
 
       return {
         statusCode: 200,
