@@ -1,4 +1,5 @@
 import { ProductsImages } from "../../models/ProductsImages";
+import { badRequest, ok, serverError } from "../helpers";
 import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { IUpdateImageRepository, UpdateImageParams } from "./protocols";
 
@@ -7,27 +8,17 @@ export class UpdateImageController implements IController {
 
   async handle(
     httpRequest: HttpRequest<UpdateImageParams>
-  ): Promise<HttpResponse<ProductsImages>> {
+  ): Promise<HttpResponse<ProductsImages | string>> {
     const id = httpRequest?.params?.id;
     const body = httpRequest?.body;
 
     try {
-      if (!id)
-        return {
-          statusCode: 400,
-          body: "Missing Image ID",
-        };
+      if (!id) return badRequest("Missing Image ID");
       const image = await this.updateImageRepository.updateImage(id, body!);
 
-      return {
-        statusCode: 200,
-        body: image,
-      };
+      return ok<ProductsImages>(image);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong",
-      };
+      return serverError();
     }
   }
 }
