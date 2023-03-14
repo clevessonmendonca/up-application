@@ -1,12 +1,12 @@
 import { ProductsImages } from "../../models/ProductsImages";
-import { HttpRequest, HttpResponse } from "../protocols";
-import { IDeleteImageController, IDeleteImageRepository } from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { IDeleteImageRepository } from "./protocols";
 
-export class DeleteImageController implements IDeleteImageController {
+export class DeleteImageController implements IController {
   constructor(private readonly deleteImageRepository: IDeleteImageRepository) {}
 
   async handle(
-    httpRequest: HttpRequest<any>
+    httpRequest: HttpRequest<ProductsImages>
   ): Promise<HttpResponse<ProductsImages>> {
     try {
       const id = httpRequest?.params?.id;

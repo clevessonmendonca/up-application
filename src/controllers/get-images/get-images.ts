@@ -1,6 +1,7 @@
-import { IGetImagesController, IGetImagesRepository } from "./protocols";
+import { IController } from "../protocols";
+import { IGetImagesRepository } from "./protocols";
 
-export class GetImagesController implements IGetImagesController {
+export class GetImagesController implements IController {
   constructor(private readonly getImagesRepository: IGetImagesRepository) {}
 
   async handle() {

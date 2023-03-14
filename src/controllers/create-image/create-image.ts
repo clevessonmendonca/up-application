@@ -1,12 +1,8 @@
 import { ProductsImages } from "../../models/ProductsImages";
-import { HttpRequest, HttpResponse } from "../protocols";
-import {
-  CreateImagesParams,
-  ICreateImageController,
-  ICreateImageRepository,
-} from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { CreateImagesParams, ICreateImageRepository } from "./protocols";
 
-export class CreateImageController implements ICreateImageController {
+export class CreateImageController implements IController {
   constructor(private readonly createImageRepository: ICreateImageRepository) {}
 
   async handle(

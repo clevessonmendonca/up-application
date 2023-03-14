@@ -1,16 +1,12 @@
 import { ProductsImages } from "../../models/ProductsImages";
-import { HttpRequest, HttpResponse } from "../protocols";
-import {
-  IUpdateImageController,
-  IUpdateImageRepository,
-  UpdateImageParams,
-} from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { IUpdateImageRepository, UpdateImageParams } from "./protocols";
 
-export class UpdateImageController implements IUpdateImageController {
+export class UpdateImageController implements IController {
   constructor(private readonly updateImageRepository: IUpdateImageRepository) {}
 
   async handle(
-    httpRequest: HttpRequest<any>
+    httpRequest: HttpRequest<UpdateImageParams>
   ): Promise<HttpResponse<ProductsImages>> {
     const id = httpRequest?.params?.id;
     const body = httpRequest?.body;
@@ -21,7 +17,7 @@ export class UpdateImageController implements IUpdateImageController {
           statusCode: 400,
           body: "Missing Image ID",
         };
-      const image = await this.updateImageRepository.updateImage(id, body);
+      const image = await this.updateImageRepository.updateImage(id, body!);
 
       return {
         statusCode: 200,
