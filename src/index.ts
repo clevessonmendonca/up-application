@@ -7,6 +7,8 @@ import { CreateImageController } from "./controllers/create-image/create-image";
 import { MongoCreateImageRepository } from "./repositories/create-image/mongo-create-images";
 import { MongoUpdateImageRepository } from "./repositories/update-image/mongo-update-images";
 import { UpdateImageController } from "./controllers/update-images/update-images";
+import { MongoDeleteImageRepository } from "./repositories/delete-image/mongo-delete-image";
+import { DeleteImageController } from "./controllers/delete-image/delete-image";
 
 const main = async () => {
   config();
@@ -47,6 +49,19 @@ const main = async () => {
 
     const { body, statusCode } = await updateImageController.handle({
       body: req.body,
+      params: req.params,
+    });
+
+    res.send(body).status(statusCode);
+  });
+
+  app.delete("/images/:id", async (req, res) => {
+    const mongoDeleteImageRepository = new MongoDeleteImageRepository();
+    const deleteImageController = new DeleteImageController(
+      mongoDeleteImageRepository
+    );
+
+    const { body, statusCode } = await deleteImageController.handle({
       params: req.params,
     });
 
