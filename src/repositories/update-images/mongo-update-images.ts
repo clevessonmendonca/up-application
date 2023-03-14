@@ -19,7 +19,6 @@ export class MongoUpdateImageRepository implements IUpdateImageRepository {
         },
       }
     );
-
     const image = await MongoClient.db
       .collection<Omit<ProductsImages, "id">>("products")
       .findOne({ _id: new ObjectId(id) });

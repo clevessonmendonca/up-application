@@ -5,6 +5,8 @@ import { MongoGetImagesRepository } from "./repositories/get-images/mongo-get-im
 import { MongoClient } from "./database/mongo";
 import { CreateImageController } from "./controllers/create-image/create-image";
 import { MongoCreateImageRepository } from "./repositories/create-images/mongo-create-images";
+import { MongoUpdateImageRepository } from "./repositories/update-images/mongo-update-images";
+import { UpdateImageController } from "./controllers/update-images/update-images";
 
 const main = async () => {
   config();
@@ -32,6 +34,20 @@ const main = async () => {
 
     const { body, statusCode } = await createImageController.handle({
       body: req.body,
+    });
+
+    res.send(body).status(statusCode);
+  });
+
+  app.patch("/images/:id", async (req, res) => {
+    const mongoUpdateImageRepository = new MongoUpdateImageRepository();
+    const updateImageController = new UpdateImageController(
+      mongoUpdateImageRepository
+    );
+
+    const { body, statusCode } = await updateImageController.handle({
+      body: req.body,
+      params: req.params,
     });
 
     res.send(body).status(statusCode);
