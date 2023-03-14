@@ -5,6 +5,7 @@ import {
 } from "../../controllers/update-images/protocols";
 import { MongoClient } from "../../database/mongo";
 import { ProductsImages } from "../../models/ProductsImages";
+import { MongoImage } from "../mongo-protocols";
 
 export class MongoUpdateImageRepository implements IUpdateImageRepository {
   async updateImage(
@@ -20,7 +21,7 @@ export class MongoUpdateImageRepository implements IUpdateImageRepository {
       }
     );
     const image = await MongoClient.db
-      .collection<Omit<ProductsImages, "id">>("products")
+      .collection<MongoImage>("products")
       .findOne({ _id: new ObjectId(id) });
 
     if (!image) throw new Error("Image not updated");

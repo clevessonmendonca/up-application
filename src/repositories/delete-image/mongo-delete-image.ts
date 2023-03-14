@@ -2,11 +2,12 @@ import { ObjectId } from "mongodb";
 import { IDeleteImageRepository } from "../../controllers/delete-image/protocols";
 import { MongoClient } from "../../database/mongo";
 import { ProductsImages } from "../../models/ProductsImages";
+import { MongoImage } from "../mongo-protocols";
 
 export class MongoDeleteImageRepository implements IDeleteImageRepository {
   async deleteImage(id: string): Promise<ProductsImages> {
     const image = await MongoClient.db
-      .collection<Omit<ProductsImages, "id">>("products")
+      .collection<MongoImage>("products")
       .findOne({ _id: new ObjectId(id) });
 
     if (!image) throw new Error(`Image ${id} not found`);

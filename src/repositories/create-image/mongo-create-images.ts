@@ -1,6 +1,7 @@
 import { MongoClient } from "../../database/mongo";
 import { ProductsImages } from "../../models/ProductsImages";
 import { CreateImagesParams, ICreateImageRepository } from "../../controllers/create-image/protocols";
+import { MongoImage } from "../mongo-protocols";
 
 export class MongoCreateImageRepository implements ICreateImageRepository {
   async createImage(params: CreateImagesParams): Promise<ProductsImages> {
@@ -9,7 +10,7 @@ export class MongoCreateImageRepository implements ICreateImageRepository {
       .insertOne(params);
 
     const images = await MongoClient.db
-      .collection<Omit<ProductsImages, "id">>("products")
+      .collection<MongoImage>("products")
       .findOne({ _id: insertedId });
 
     if (!images) throw new Error(`Images not created`);
