@@ -4,8 +4,8 @@ import { GetImagesController } from "./controllers/get-images/get-images";
 import { MongoGetImagesRepository } from "./repositories/get-images/mongo-get-images";
 import { MongoClient } from "./database/mongo";
 import { CreateImageController } from "./controllers/create-image/create-image";
-import { MongoCreateImageRepository } from "./repositories/create-images/mongo-create-images";
-import { MongoUpdateImageRepository } from "./repositories/update-images/mongo-update-images";
+import { MongoCreateImageRepository } from "./repositories/create-image/mongo-create-images";
+import { MongoUpdateImageRepository } from "./repositories/update-image/mongo-update-images";
 import { UpdateImageController } from "./controllers/update-images/update-images";
 
 const main = async () => {
